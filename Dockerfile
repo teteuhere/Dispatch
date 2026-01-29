@@ -1,24 +1,27 @@
-# Base Image: Python 3.10 Slim (Tactical Light Gear)
+# Base Image
 FROM python:3.10-slim
 
-# Set working directory inside the tank
+# Set Working Directory
 WORKDIR /app
 
-# Copy the arsenal
-# We copy requirements first for caching (even if empty for now)
+# Install System Dependencies (for pywebview/GTK if needed in container, usually headless)
+# Kept minimal for server mode
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3-dev \
+    libgirepository1.0-dev \
+    libcairo2-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source code and config
-COPY src/ ./src/
-COPY config/ ./config/
+# Copy Source Code
+COPY . .
 
-# Environment variables
-ENV PYTHONPATH=/app/src
-ENV PYTHONUNBUFFERED=1
-
-# Expose the Web Port
+# Expose Port
 EXPOSE 8000
 
-# Run the Server instead of the script
-CMD ["python", "src/teamsintegration/server.py"]
+CMD ["python", "src/dispatch/server.py"]

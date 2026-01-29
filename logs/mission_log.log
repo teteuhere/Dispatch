@@ -14,3 +14,79 @@
 2026-01-28 22:08:32,080 - [INFO] - PROTOCOL EXECUTED SUCCESSFULLY.
 2026-01-28 22:08:55,748 - [INFO] - TIMER ARMED. Target Time: 20:45
 2026-01-28 22:20:59,361 - [INFO] - TIMER ARMED. Target Time: 20:45
+2026-01-28 22:44:52,482 - [INFO] - SECURITY CLEARANCE UPDATED. New credentials saved.
+2026-01-28 22:48:25,061 - [INFO] - MANUAL/AUTO OVERRIDE INITIATED. Executing Protocol...
+2026-01-28 22:48:25,061 - [ERROR] - INTEL FAILURE: No targets configured.
+2026-01-28 22:53:33,009 - [INFO] - TIMER ARMED. Target Time: 20:45
+2026-01-28 22:53:33,010 - [INFO] - SYSTEM LIFESPAN: INITIATED
+2026-01-28 22:53:33,011 - [INFO] - SYSTEM LIFESPAN: TERMINATED
+2026-01-28 22:54:00,599 - [INFO] - SECURITY CLEARANCE UPDATED. New credentials saved.
+2026-01-28 22:55:58,778 - [INFO] - TIMER UPDATED: 20:45
+2026-01-28 22:56:05,876 - [INFO] - TIMER UPDATED: 20:55
+2026-01-28 22:59:06,274 - [INFO] - SYSTEM BOOT | ROOT: /home/theo/Documents/Projects/CODING/TeamsIntegration
+2026-01-28 22:59:06,276 - [INFO] - LOOKING FOR CONFIG AT: /home/theo/Documents/Projects/CODING/TeamsIntegration/config/targets.json
+2026-01-28 22:59:06,276 - [INFO] - CONFIG FILE FOUND.
+2026-01-28 22:59:06,298 - [INFO] - TIMER ARMED. Target Time: 20:45
+2026-01-28 22:59:34,268 - [INFO] - SECURITY CLEARANCE UPDATED. New credentials saved.
+2026-01-28 23:00:37,088 - [INFO] - SYSTEM BOOT | ROOT: /home/theo/Documents/Projects/CODING/TeamsIntegration
+2026-01-28 23:00:37,088 - [INFO] - LOOKING FOR CONFIG AT: /home/theo/Documents/Projects/CODING/TeamsIntegration/config/targets.json
+2026-01-28 23:00:37,088 - [INFO] - CONFIG FILE FOUND.
+2026-01-28 23:00:37,090 - [INFO] - TIMER ARMED. Target Time: 20:45
+2026-01-28 23:01:02,005 - [INFO] - SECURITY CLEARANCE UPDATED.
+2026-01-28 23:01:35,353 - [INFO] - MANUAL/AUTO OVERRIDE INITIATED...
+2026-01-28 23:01:35,355 - [INFO] - INICIANDO CONEXÃO SMTP (Munição Real)...
+2026-01-28 23:01:37,808 - [INFO] - CONEXÃO SMTP ESTABELECIDA. Pronto para disparo.
+2026-01-28 23:01:37,808 - [INFO] - TARGET ACQUIRED: matheuss.cirq@gmail.com
+2026-01-28 23:01:41,994 - [INFO] - DISPARO CONFIRMADO: E-mail enviado para matheuss.cirq@gmail.com
+2026-01-28 23:01:41,994 - [INFO] - [SIMULAÇÃO] Enviando mensagem Teams para matheuss.cirq@gmail.com (API Indisponível).
+2026-01-28 23:01:41,994 - [INFO] - TARGET ACQUIRED: matheuss.cirq@outlook.com
+2026-01-28 23:01:46,614 - [INFO] - DISPARO CONFIRMADO: E-mail enviado para matheuss.cirq@outlook.com
+2026-01-28 23:01:46,614 - [INFO] - [SIMULAÇÃO] Enviando mensagem Teams para matheuss.cirq@outlook.com (API Indisponível).
+2026-01-28 23:01:46,614 - [INFO] - TARGET ACQUIRED: matheuss.cirq@pm.me
+2026-01-28 23:01:50,417 - [INFO] - DISPARO CONFIRMADO: E-mail enviado para matheuss.cirq@pm.me
+2026-01-28 23:01:50,418 - [INFO] - [SIMULAÇÃO] Enviando mensagem Teams para matheuss.cirq@pm.me (API Indisponível).
+2026-01-28 23:01:50,418 - [INFO] - PROTOCOL EXECUTED SUCCESSFULLY.
+2026-01-28 23:05:27,016 - [INFO] - SYSTEM BOOT | SECURE MODE
+2026-01-28 23:05:27,021 - [INFO] - TIMER ARMED. Target Time: 20:45
+2026-01-28 23:05:29,721 - [WARNING] - DETECTED PLAIN TEXT SECRETS. MIGRATING TO ENCRYPTED STORAGE...
+2026-01-28 23:07:33,021 - [INFO] - SYSTEM BOOT | SECURE MODE
+2026-01-28 23:07:33,033 - [INFO] - TIMER ARMED. Target Time: 20:45
+2026-01-28 23:08:35,313 - [INFO] - SYSTEM BOOT | SECURE MODE
+2026-01-28 23:08:35,315 - [INFO] - TIMER ARMED. Target Time: 20:45
+2026-01-28 23:09:34,407 - [INFO] - SYSTEM BOOT | SECURE MODE
+2026-01-28 23:09:34,409 - [INFO] - TIMER ARMED. Target Time: 20:45
+2026-01-28 23:11:27,712 - [INFO] - TIMER ARMED. Target: 20:45
+2026-01-28 23:13:16,719 - [INFO] - MANUAL/AUTO OVERRIDE INITIATED...
+2026-01-28 23:13:16,732 - [INFO] - INICIANDO CONEXÃO SMTP (Munição Real)...
+2026-01-28 23:13:19,047 - [INFO] - CONEXÃO SMTP ESTABELECIDA.
+2026-01-28 23:13:19,048 - [INFO] - TARGET ACQUIRED: matheuss.cirq@gmail.com
+2026-01-28 23:13:23,104 - [INFO] - DISPARO CONFIRMADO: matheuss.cirq@gmail.com
+2026-01-28 23:13:23,104 - [INFO] - [SIMULAÇÃO] Enviando Teams para matheuss.cirq@gmail.com...
+2026-01-28 23:13:23,104 - [INFO] - TARGET ACQUIRED: matheuss.cirq@outlook.com
+2026-01-28 23:13:27,144 - [INFO] - DISPARO CONFIRMADO: matheuss.cirq@outlook.com
+2026-01-28 23:13:27,144 - [INFO] - [SIMULAÇÃO] Enviando Teams para matheuss.cirq@outlook.com...
+2026-01-28 23:13:27,145 - [INFO] - TARGET ACQUIRED: matheuss.cirq@pm.me
+2026-01-28 23:13:31,061 - [INFO] - DISPARO CONFIRMADO: matheuss.cirq@pm.me
+2026-01-28 23:13:31,062 - [INFO] - [SIMULAÇÃO] Enviando Teams para matheuss.cirq@pm.me...
+2026-01-28 23:13:31,062 - [INFO] - TARGET ACQUIRED: isac.raulino@hotmail.com
+2026-01-28 23:13:35,810 - [INFO] - DISPARO CONFIRMADO: isac.raulino@hotmail.com
+2026-01-28 23:13:35,810 - [INFO] - [SIMULAÇÃO] Enviando Teams para isac.raulino@hotmail.com...
+2026-01-28 23:13:35,810 - [INFO] - PROTOCOL EXECUTED SUCCESSFULLY.
+2026-01-28 23:21:21,228 - [INFO] - TIMER ARMED. Target: 20:45
+2026-01-28 23:22:27,381 - [INFO] - MANUAL/AUTO OVERRIDE INITIATED...
+2026-01-28 23:22:27,385 - [INFO] - RADIO CHECK: Connecting to SMTP...
+2026-01-28 23:22:29,771 - [INFO] - LINK ESTABLISHED: Channel Open.
+2026-01-28 23:22:29,771 - [INFO] - TARGET ACQUIRED: matheuss.cirq@gmail.com
+2026-01-28 23:22:34,057 - [INFO] - PAYLOAD DELIVERED: matheuss.cirq@gmail.com
+2026-01-28 23:22:34,057 - [INFO] - [TEAMS SIM] To: matheuss.cirq@gmail.com | Msg: Isac, os sonhos que ...
+2026-01-28 23:22:34,057 - [INFO] - TARGET ACQUIRED: matheuss.cirq@outlook.com
+2026-01-28 23:22:37,909 - [INFO] - PAYLOAD DELIVERED: matheuss.cirq@outlook.com
+2026-01-28 23:22:37,909 - [INFO] - [TEAMS SIM] To: matheuss.cirq@outlook.com | Msg: Isac, os sonhos que ...
+2026-01-28 23:22:37,910 - [INFO] - TARGET ACQUIRED: matheuss.cirq@pm.me
+2026-01-28 23:22:41,878 - [INFO] - PAYLOAD DELIVERED: matheuss.cirq@pm.me
+2026-01-28 23:22:41,879 - [INFO] - [TEAMS SIM] To: matheuss.cirq@pm.me | Msg: Isac, os sonhos que ...
+2026-01-28 23:22:41,879 - [INFO] - TARGET ACQUIRED: isac.raulino@hotmail.com
+2026-01-28 23:22:46,314 - [INFO] - PAYLOAD DELIVERED: isac.raulino@hotmail.com
+2026-01-28 23:22:46,315 - [INFO] - [TEAMS SIM] To: isac.raulino@hotmail.com | Msg: Isac, os sonhos que ...
+2026-01-28 23:22:46,315 - [INFO] - PROTOCOL EXECUTED SUCCESSFULLY.
+2026-01-28 23:24:10,132 - [INFO] - TIMER ARMED. Target: 20:45

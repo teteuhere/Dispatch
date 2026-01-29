@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONTROLE DE DISPARO</title>
+    <title>CONTROLE DE DESPACHO // SPIDER-OPS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,7 +34,7 @@
 
     <header class="h-14 border-b border-border-dim flex items-center justify-between px-6 bg-bg-main shrink-0">
         <div class="flex items-center space-x-2 text-text-dim font-mono text-xs uppercase tracking-wider">
-            <span>Sistema</span><span class="text-border-dim">/</span><span>Operações</span><span class="text-border-dim">/</span><span class="text-white">Despacho</span>
+            <span>Sistema</span><span class="text-border-dim">/</span><span>Operações</span><span class="text-border-dim">/</span><span class="text-white">Despacho Central</span>
         </div>
         <div class="flex items-center space-x-2"><div class="h-2 w-2 rounded-full bg-success animate-pulse"></div><span class="font-mono text-xs text-success tracking-widest">STATUS: EM EXECUÇÃO</span></div>
     </header>
@@ -42,12 +42,21 @@
     <div class="flex flex-1 overflow-hidden">
         <aside class="w-16 bg-bg-main border-r border-border-dim flex flex-col items-center py-6 gap-6 z-20 shrink-0">
             <div class="p-2 text-white border-l-2 border-white"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg></div>
+
+            <div class="flex-1"></div>
+
+            <div onclick="toggleProtocolModal(true)" class="p-2 text-text-dim hover:text-white cursor-pointer transition-colors" title="Protocolo de Mensagem">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            </div>
+
+            <div onclick="toggleSettingsModal(true)" class="p-2 text-text-dim hover:text-white cursor-pointer transition-colors" title="Configurações">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            </div>
+            <div class="h-4"></div>
         </aside>
 
         <div class="flex-1 flex flex-col min-w-0">
-
             <div class="flex-1 flex flex-col p-6 space-y-6 overflow-hidden">
-
                 <div class="grid grid-cols-2 gap-6 shrink-0 h-32">
                     <div class="border border-border-dim bg-bg-panel p-6 flex flex-col justify-between relative group">
                         <div class="absolute top-0 left-0 w-1 h-full bg-border-dim group-hover:bg-white transition-all"></div>
@@ -59,16 +68,16 @@
                     </div>
                     <div class="border border-border-dim bg-bg-panel p-0 flex items-center justify-center">
                         <button id="force-btn" class="w-full h-full text-text-dim hover:text-white hover:bg-white/5 transition-all font-mono uppercase tracking-[0.2em] border border-transparent hover:border-text-dim flex items-center justify-center gap-4">
-                            <span>Executar agora</span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            <span>Forçar Execução</span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         </button>
                     </div>
                 </div>
 
                 <div class="border border-border-dim bg-bg-panel flex flex-col flex-1 overflow-hidden">
                     <div class="px-6 py-3 border-b border-border-dim flex justify-between items-center bg-bg-main shrink-0">
-                        <h2 class="font-mono text-xs text-text-dim uppercase tracking-widest">Manifesto de endereços</h2>
+                        <h2 class="font-mono text-xs text-text-dim uppercase tracking-widest">Manifesto de Alvos</h2>
                         <button onclick="toggleModal(true)" class="flex items-center gap-2 px-3 py-1 text-xs font-mono uppercase bg-bg-panel border border-border-dim hover:bg-white hover:text-black transition-colors">
-                            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg> Adicionar Endereço
+                            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg> Adicionar Alvo
                         </button>
                     </div>
                     <div class="overflow-auto flex-1">
@@ -90,7 +99,6 @@
                 <div class="px-4 py-2 border-b border-border-dim text-text-dim text-[10px] uppercase tracking-wider bg-bg-panel">Log do Sistema / Telemetria</div>
                 <div id="log-panel" class="flex-1 overflow-y-auto p-4 space-y-1 font-mono w-full"></div>
             </div>
-
         </div>
     </div>
 
@@ -112,16 +120,48 @@
         <div class="bg-bg-panel border border-border-dim w-[300px] p-6 shadow-2xl text-center">
             <h3 class="font-mono text-white text-sm uppercase tracking-widest mb-6">Definir Hora-H (24h)</h3>
             <div class="space-y-4">
-                <input type="text"
-                       id="input-time"
-                       maxlength="5"
-                       placeholder="20:30"
-                       class="w-full bg-bg-main border border-border-dim p-4 text-white text-xl font-mono text-center focus:border-white focus:outline-none placeholder-text-dim/30"
-                       oninput="formatTimeInput(this)">
-
+                <input type="text" id="input-time" maxlength="5" placeholder="20:30" class="w-full bg-bg-main border border-border-dim p-4 text-white text-xl font-mono text-center focus:border-white focus:outline-none placeholder-text-dim/30" oninput="formatTimeInput(this)">
                 <div class="flex gap-4 pt-4">
-                    <button onclick="submitTime()" class="flex-1 bg-white text-black py-2 text-xs font-mono uppercase font-bold hover:bg-gray-200">Definir</button>
+                    <button onclick="submitConfig()" class="flex-1 bg-white text-black py-2 text-xs font-mono uppercase font-bold hover:bg-gray-200">Definir</button>
                     <button onclick="toggleTimeModal(false)" class="flex-1 border border-border-dim text-text-dim py-2 text-xs font-mono uppercase hover:text-white">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] hidden modal opacity-0">
+        <div class="bg-bg-panel border border-border-dim w-[400px] p-6 shadow-2xl">
+            <h3 class="font-mono text-white text-sm uppercase tracking-widest mb-6">Credenciais de Segurança</h3>
+            <div class="space-y-4">
+                <input type="text" id="set-email" class="w-full bg-bg-main border border-border-dim p-2 text-white text-xs font-mono focus:border-white focus:outline-none" placeholder="Email">
+                <input type="password" id="set-pass" class="w-full bg-bg-main border border-border-dim p-2 text-white text-xs font-mono focus:border-white focus:outline-none" placeholder="Senha">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" id="set-smtp" value="smtp.gmail.com" class="w-full bg-bg-main border border-border-dim p-2 text-white text-xs font-mono focus:border-white focus:outline-none">
+                    <input type="text" id="set-port" value="587" class="w-full bg-bg-main border border-border-dim p-2 text-white text-xs font-mono focus:border-white focus:outline-none">
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button onclick="submitSettings()" class="flex-1 bg-white text-black py-2 text-xs font-mono uppercase font-bold hover:bg-gray-200">Salvar</button>
+                    <button onclick="toggleSettingsModal(false)" class="flex-1 border border-border-dim text-text-dim py-2 text-xs font-mono uppercase hover:text-white">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="protocol-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] hidden modal opacity-0">
+        <div class="bg-bg-panel border border-border-dim w-[500px] p-6 shadow-2xl">
+            <h3 class="font-mono text-white text-sm uppercase tracking-widest mb-6">Protocolo de Mensagem</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs text-text-dim mb-1 font-mono">Assunto (Subject)</label>
+                    <input type="text" id="proto-subject" class="w-full bg-bg-main border border-border-dim p-2 text-white text-xs font-mono focus:border-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs text-text-dim mb-1 font-mono">Corpo da Mensagem</label>
+                    <textarea id="proto-body" rows="6" class="w-full bg-bg-main border border-border-dim p-2 text-white text-xs font-mono focus:border-white focus:outline-none"></textarea>
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button onclick="submitConfig(true)" class="flex-1 bg-white text-black py-2 text-xs font-mono uppercase font-bold hover:bg-gray-200">Atualizar Protocolo</button>
+                    <button onclick="toggleProtocolModal(false)" class="flex-1 border border-border-dim text-text-dim py-2 text-xs font-mono uppercase hover:text-white">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -133,9 +173,12 @@
         const tableBody = document.getElementById('target-table-body');
         const displayTime = document.getElementById('display-time');
 
+        // STATE CACHE
+        let currentConfig = { trigger_time: "20:30", subject: "", body: "" };
+
         function appendLog(msg, type="INFO") {
             const line = document.createElement('div');
-            const time = new Date().toLocaleTimeString('pt-BR'); // Formato PT-BR
+            const time = new Date().toLocaleTimeString('pt-BR');
             let color = "text-text-dim";
             if(type === "ERROR") color = "text-danger";
             if(type === "SUCCESS") color = "text-success";
@@ -145,91 +188,108 @@
             logPanel.scrollTop = logPanel.scrollHeight;
         }
 
-        // --- LÓGICA DE TEMPO (Militar Estrito) ---
-        function formatTimeInput(input) {
-            // Remove tudo que não for número
-            let v = input.value.replace(/[^0-9]/g, '');
-
-            // Insere os dois pontos automaticamente
-            if (v.length > 2) {
-                v = v.substring(0, 2) + ':' + v.substring(2, 4);
-            }
-            input.value = v;
-        }
-
-        function toggleTimeModal(show) {
-            const m = document.getElementById('time-modal');
-            const input = document.getElementById('input-time');
-
-            if(show) {
-                // Preenche com o horário atual exibido
-                const currentDisplay = document.getElementById('display-time').innerText.split(' ')[0];
-                if(currentDisplay.includes(':')) input.value = currentDisplay;
-
-                m.classList.remove('hidden');
-                setTimeout(() => m.classList.remove('opacity-0'), 10);
-                input.focus();
-            }
-            else {
-                m.classList.add('opacity-0');
-                setTimeout(() => m.classList.add('hidden'), 200);
-            }
-        }
-
-        async function submitTime() {
-            const t = document.getElementById('input-time').value;
-
-            // Regex para validar formato 24h (00:00 a 23:59)
-            const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
-
-            if(!timeRegex.test(t)) {
-                alert("Formato Inválido. Use HH:MM (00:00 a 23:59)");
-                return;
-            }
-
-            try {
-                const res = await fetch('/api/config', {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ trigger_time: t })
-                });
-                if(res.ok) {
-                    toggleTimeModal(false);
-                    fetchConfig();
-                    appendLog(`Hora-H reagendada para ${t}`, "SUCCESS");
-                } else alert("O Servidor rejeitou o horário.");
-            } catch(e) { console.error(e); }
-        }
-
-        async function fetchConfig() {
-            try {
-                const res = await fetch('/api/config');
-                const data = await res.json();
-                if(data.trigger_time) {
-                    displayTime.innerHTML = `${data.trigger_time} <span class="text-lg text-text-dim">UTC-3</span>`;
-                }
-            } catch(e) {}
-        }
-
-        // --- LÓGICA DE ALVOS ---
-        function toggleModal(show) {
-            const m = document.getElementById('recruit-modal');
+        // --- HELPERS ---
+        function toggle(id, show) {
+            const m = document.getElementById(id);
             if(show) { m.classList.remove('hidden'); setTimeout(() => m.classList.remove('opacity-0'), 10); }
             else { m.classList.add('opacity-0'); setTimeout(() => m.classList.add('hidden'), 200); }
         }
 
-        async function submitTarget() {
-            const name = document.getElementById('input-name').value;
-            const email = document.getElementById('input-email').value;
-            if(!name || !email) return;
+        // --- CONFIG LOGIC (Unified for Time & Message) ---
+        async function fetchConfig() {
             try {
-                const res = await fetch('/api/targets', {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ name, email })
-                });
-                if(res.ok) { toggleModal(false); fetchTargets(); appendLog(`Recruta Adicionado: ${name}`, "SUCCESS"); }
+                const res = await fetch('/api/config');
+                const data = await res.json();
+                currentConfig = data;
+
+                // Update UI
+                if(data.trigger_time) {
+                    displayTime.innerHTML = `${data.trigger_time} <span class="text-lg text-text-dim">UTC-3</span>`;
+                    document.getElementById('input-time').value = data.trigger_time;
+                }
+                document.getElementById('proto-subject').value = data.subject || "";
+                document.getElementById('proto-body').value = data.body || "";
             } catch(e) {}
         }
 
+        // isProtocol = true (Save from Protocol Modal), false (Save from Time Modal)
+        async function submitConfig(isProtocol = false) {
+            // We need to send ALL fields (Time + Message) to the update endpoint
+            const newTime = document.getElementById('input-time').value;
+            const newSub = document.getElementById('proto-subject').value;
+            const newBody = document.getElementById('proto-body').value;
+
+            // Validate Time
+            if(!/^([01]\d|2[0-3]):([0-5]\d)$/.test(newTime)) return alert("Formato de hora inválido");
+
+            try {
+                const res = await fetch('/api/config', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        trigger_time: newTime,
+                        email_subject: newSub,
+                        email_body: newBody
+                    })
+                });
+
+                if(res.ok) {
+                    if(isProtocol) { toggleProtocolModal(false); appendLog("Protocolo de Mensagem Atualizado", "SUCCESS"); }
+                    else { toggleTimeModal(false); appendLog(`Hora-H reagendada para ${newTime}`, "SUCCESS"); }
+                    fetchConfig();
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        function formatTimeInput(input) {
+            let v = input.value.replace(/[^0-9]/g, '');
+            if (v.length > 2) v = v.substring(0, 2) + ':' + v.substring(2, 4);
+            input.value = v;
+        }
+
+        function toggleTimeModal(show) { toggle('time-modal', show); if(show) document.getElementById('input-time').focus(); }
+        function toggleProtocolModal(show) { toggle('protocol-modal', show); if(show) fetchConfig(); }
+
+        // --- SETTINGS ---
+        async function fetchSettings() {
+            try {
+                const res = await fetch('/api/settings');
+                const data = await res.json();
+                if(data.EMAIL_USER) document.getElementById('set-email').value = data.EMAIL_USER;
+                if(data.EMAIL_PASS) document.getElementById('set-pass').value = data.EMAIL_PASS;
+                if(data.SMTP_SERVER) document.getElementById('set-smtp').value = data.SMTP_SERVER;
+                if(data.SMTP_PORT) document.getElementById('set-port').value = data.SMTP_PORT;
+            } catch(e) {}
+        }
+        function toggleSettingsModal(show) { toggle('settings-modal', show); if(show) fetchSettings(); }
+        async function submitSettings() {
+            // ... (Same as before) ...
+            const email = document.getElementById('set-email').value;
+            const pass = document.getElementById('set-pass').value;
+            const smtp = document.getElementById('set-smtp').value;
+            const port = document.getElementById('set-port').value;
+            try {
+                const res = await fetch('/api/settings', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ email_user: email, email_pass: pass, smtp_server: smtp, smtp_port: parseInt(port) })
+                });
+                if(res.ok) { toggleSettingsModal(false); appendLog("Credenciais Salvas", "SUCCESS"); }
+            } catch(e) {}
+        }
+
+        // --- TARGETS ---
+        function toggleModal(show) { toggle('recruit-modal', show); }
+        async function submitTarget() {
+             const name = document.getElementById('input-name').value;
+             const email = document.getElementById('input-email').value;
+             if(!name || !email) return;
+             try {
+                await fetch('/api/targets', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name, email })
+                });
+                toggleModal(false); fetchTargets(); appendLog(`Recruta: ${name}`, "SUCCESS");
+             } catch(e) {}
+        }
         async function fetchTargets() {
             try {
                 const res = await fetch('/api/targets');
@@ -241,7 +301,7 @@
             } catch(e) {}
         }
 
-        // --- POLLING DE LOGS ---
+        // --- LOGS & INIT ---
         async function fetchLogs() {
             try {
                 const response = await fetch('/api/logs');
@@ -250,8 +310,8 @@
                     logPanel.innerHTML = "";
                     data.logs.forEach(line => {
                          let type = "INFO";
-                         if(line.includes("ERROR")) type = "ERROR";
-                         if(line.includes("DISPARO") || line.includes("ADDED") || line.includes("UPDATED")) type = "SUCCESS";
+                         if(line.includes("ERROR") || line.includes("FALHA")) type = "ERROR";
+                         if(line.includes("DISPARO") || line.includes("SUCCESS")) type = "SUCCESS";
                          appendLog(line.replace(/\n/g, ''), type);
                     });
                 }
@@ -263,21 +323,12 @@
                 const original = btn.innerHTML;
                 btn.innerHTML = `<span class="animate-pulse text-danger">EXECUTANDO...</span>`;
                 btn.classList.add('border-danger');
-
-                try { await fetch('/api/trigger', { method: 'POST' }); }
-                catch(e) { appendLog("Falha de Comunicação", "ERROR"); }
-
-                setTimeout(() => {
-                    btn.innerHTML = original;
-                    btn.classList.remove('border-danger');
-                }, 2000);
+                try { await fetch('/api/trigger', { method: 'POST' }); } catch(e) {}
+                setTimeout(() => { btn.innerHTML = original; btn.classList.remove('border-danger'); }, 2000);
             });
         }
 
-        // Inicialização
-        fetchConfig();
-        fetchTargets();
-        setInterval(fetchLogs, 2000);
+        fetchConfig(); fetchTargets(); setInterval(fetchLogs, 2000);
     </script>
 </body>
 </html>

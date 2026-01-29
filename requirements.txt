@@ -3,3 +3,5 @@ uvicorn
 apscheduler
 jinja2
 python-dotenv
+pywebview
+cryptography
