@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "--- SPIDER-OPS: INITIATING DEPLOYMENT SEQUENCE ---"
+echo "--- DISPATCH: INITIATING DEPLOYMENT SEQUENCE ---"
 echo "LOADING CREDENTIALS FROM .ENV..."
 
 if [ ! -f .env ]; then
@@ -8,11 +8,11 @@ if [ ! -f .env ]; then
     exit 1
 fi
 
-# Ensure the logs folder exists on the host
 if [ ! -d "logs" ]; then
     mkdir -p logs
     chmod 777 logs
 fi
+
 
 docker run -d \
   --restart unless-stopped \
@@ -21,5 +21,5 @@ docker run -d \
   -v $(pwd)/config:/app/config:z \
   -v $(pwd)/logs:/app/logs:z \
   --env-file .env \
-  --name operation-live-fire \
-  spider-ops
+  --name dispatch-core \
+  dispatch

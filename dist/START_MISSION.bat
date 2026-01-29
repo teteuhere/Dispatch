@@ -1,16 +1,18 @@
 @echo off
-TITLE SPIDER-OPS DISPATCH CONSOLE
+TITLE DISPATCH CONSOLE // CENTRAL
 COLOR 0A
 
-:: --- CREDENCIAIS ---
+:: --- SECURITY CHECK ---
 IF NOT EXIST ".env" (
     ECHO [ERROR] .env file missing! The operation cannot proceed.
     PAUSE
     EXIT
 )
 
-:: --- LANÇA ---
-ECHO [SYSTEM] Loading Spider-Ops Server...
-ECHO [SYSTEM] Access Dashboard at http://localhost:8000
-spider-ops-server.exe
+:: --- LAUNCH ---
+ECHO [SYSTEM] Loading Dispatch Core...
+ECHO [SYSTEM] Reading credentials from encrypted environment (.env)...
+ECHO [SYSTEM] Dashboard accessible at http://localhost:8000
+
+dispatch.exe
 PAUSE

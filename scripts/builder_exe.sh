@@ -2,14 +2,14 @@
 
 # --- BUILDER PROTOCOL: LINUX TO WINDOWS ---
 
-echo "--- SPIDER-OPS: INITIATING WINDOWS BUILD SEQUENCE ---"
+echo "--- DISPATCH: INITIATING WINDOWS BUILD SEQUENCE ---"
 
 if [ ! -d "src" ]; then
     echo "ERROR: 'src' directory not found. Execute from project root."
     exit 1
 fi
 
-echo "TARGET: Windows Executable (.exe)"
+echo "TARGET: Windows Executable (dispatch.exe)"
 echo "COMPILER: cdrx/pyinstaller-windows (Docker)"
 echo "STATUS: Compiling..."
 
@@ -18,7 +18,7 @@ docker run --rm \
   -v "$(pwd):/src:z" \
   cdrx/pyinstaller-windows \
   "pyinstaller --clean --onefile \
-   --name spider-ops-server \
+   --name dispatch \
    --add-data 'src/frontend;src/frontend' \
    --hidden-import='uvicorn.logging' \
    --hidden-import='uvicorn.loops' \
@@ -32,5 +32,5 @@ docker run --rm \
    src/teamsintegration/server.py"
 
 echo "---------------------------------------------------"
-echo "MISSION COMPLETE. Artifact located in 'dist/' folder."
+echo "MISSION COMPLETE. Artifact located in 'dist/dispatch.exe'"
 echo "---------------------------------------------------"

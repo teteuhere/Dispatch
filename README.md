@@ -1,9 +1,9 @@
-# SPIDER-OPS // DISPATCH CONTROL
+# DISPATCH
 
 ![Status](https://img.shields.io/badge/STATUS-OPERATIONAL-success?style=for-the-badge)
 ![Security](https://img.shields.io/badge/SECURITY-CLASSIFIED-red?style=for-the-badge)
 
-**Spider-Ops** is a tactical automated dispatch system designed to execute scheduled communication protocols. It features a stealth "Dark Mode" dashboard, automated scheduling (H-Hour), and real-time target management.
+**Dispatch** is a tactical automated dispatch system designed to execute scheduled communication protocols. It features a stealth "Dark Mode" dashboard, automated scheduling (H-Hour), and real-time target management.
 
 ---
 
@@ -72,10 +72,10 @@ chmod +x scripts/build_exe.sh
 ```
 
 
-*Result:* The file `spider-ops-server.exe` will appear in the `dist/` folder.
+*Result:* The file `Dispatch-server.exe` will appear in the `dist/` folder.
 2. **Installation on Windows:**
-* Create a folder (e.g., `C:\SpiderOps`).
-* Copy `spider-ops-server.exe` to that folder.
+* Create a folder (e.g., `C:\Dispatch`).
+* Copy `dispatch.exe` to that folder.
 * Copy your `.env` file to that folder.
 * Create a `logs` folder inside.
 
