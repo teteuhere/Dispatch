@@ -1,30 +1,34 @@
-# DISPATCH
+# DISPATCH // CENTRAL COMMAND
 
 ![Status](https://img.shields.io/badge/STATUS-OPERATIONAL-success?style=for-the-badge)
-![Security](https://img.shields.io/badge/SECURITY-CLASSIFIED-red?style=for-the-badge)
+![Security](https://img.shields.io/badge/SECURITY-ENCRYPTED-blue?style=for-the-badge)
+![Platform](https://img.shields.io/badge/PLATFORM-NATIVE_DESKTOP-orange?style=for-the-badge)
 
-**Dispatch** is a tactical automated dispatch system designed to execute scheduled communication protocols. It features a stealth "Dark Mode" dashboard, automated scheduling (H-Hour), and real-time target management.
+**Dispatch** is a tactical automated communication system designed to execute scheduled protocols (Email/Teams) from a secure, native desktop interface. It features a stealth "Dark Mode" dashboard, Fernet-grade encryption for credentials, and automated H-Hour scheduling.
+
+> **System Update:** This unit has been upgraded from a containerized web service to a standalone Desktop Application (GTK/WebView). Docker is no longer required for operation.
 
 ---
 
 ## 📂 Operational Structure
 
 ```text
-TeamsIntegration/
-├── config/             # Mission Parameters
-│   └── targets.json    # List of operatives & H-Hour time
-├── logs/               # Persistent Log Storage (Black Box)
-├── scripts/            # Deployment Scripts
-│   ├── run.sh          # Linux/Docker Launcher
-│   └── build_exe.sh    # Windows Executable Builder
+Dispatch/
+├── config/             # Mission Data (Auto-Generated)
+│   ├── targets.json    # Operatives, Schedule, & Message Content
+│   ├── secrets.json    # ENCRYPTED Credentials (AES/Fernet)
+│   └── master.key      # Encryption Key (DO NOT DELETE)
+├── logs/               # Persistent Telemetry
+├── scripts/            # Factory Scripts
+│   ├── build_linux.sh  # Compiles Binary for Linux
+│   └── build_exe.sh    # Cross-Compiles .exe for Windows (via Docker)
 ├── src/
 │   ├── frontend/       # HTML/JS Dashboard (PT-BR Localized)
-│   └── teamsintegration/
-│       ├── api/        # SMTP & Teams Connectors
-│       ├── utils/      # Logging Logic
-│       └── server.py   # FastAPI Core & Scheduler
-├── .env                # Classified Credentials (GitIgnored)
-└── Dockerfile          # Container Blueprint
+│   └── dispatch/       # Core Logic
+│       ├── api/        # SMTP & Connectors
+│       ├── utils/      # Security & Logging
+│       └── server.py   # Main Engine (FastAPI + PyWebView)
+└── requirements.txt    # Python Dependencies
 
 ```
 
@@ -32,36 +36,30 @@ TeamsIntegration/
 
 ## 🚀 Deployment Protocols
 
-### Option A: Docker Container (Linux/Server)
+### Option A: Linux (Native Binary)
 
-*Recommended for always-on servers (Daemon Mode).*
+*Recommended for your local kernel (`theo@kernel`).*
 
-1. **Configure Credentials:**
-Create a `.env` file in the root directory:
-```properties
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password_here
-SMTP_SERVER=smtp.gmail.com
-SMTP_PORT=587
-
-```
-
-
-2. **Deploy:**
-Execute the deployment script. This will build the image and start the container in detached mode with persistent storage.
+1. **Compile the Asset:**
 ```bash
-chmod +x scripts/run.sh
-./scripts/run.sh
+chmod +x scripts/build_linux.sh
+./scripts/build_linux.sh
 
 ```
 
 
-3. **Access:**
-Open your browser to: `http://localhost:8000`
+2. **Execute:**
+Run the binary directly. It will launch a secure window.
+```bash
+./dist/dispatch
+
+```
+
+
 
 ### Option B: Windows Executable (.exe)
 
-*Recommended for portable use on client machines.*
+*Recommended for field agents on Windows.*
 
 1. **Build the Artifact:**
 We use a Dockerized PyInstaller to cross-compile from Linux to Windows.
@@ -72,84 +70,84 @@ chmod +x scripts/build_exe.sh
 ```
 
 
-*Result:* The file `Dispatch-server.exe` will appear in the `dist/` folder.
-2. **Installation on Windows:**
-* Create a folder (e.g., `C:\Dispatch`).
-* Copy `dispatch.exe` to that folder.
-* Copy your `.env` file to that folder.
-* Create a `logs` folder inside.
+2. **Deploy:**
+* Take `dist/dispatch.exe`.
+* Run it anywhere. No installation required.
 
 
-3. **Run:**
-Double-click the `.exe`. The dashboard will be available at `http://localhost:8000`.
+
+### Option C: Developer Mode (Source)
+
+*For making modifications to the mainframe.*
+
+```bash
+# Activate Environment
+source .venv/bin/activate
+
+# Launch directly
+python src/dispatch/server.py
+
+```
 
 ---
 
 ## 🕹️ Dashboard Controls
 
-The interface is fully localized in **Portuguese (PT-BR)** and features a "Sysadmin" aesthetic.
+The interface is fully localized in **Portuguese (PT-BR)** and runs in a dedicated window (no browser required).
 
-* **Next Execution (Próxima Execução):** Displays the scheduled H-Hour.
-* *Edit:* Click "Editar Horário" to change the daily trigger time (Format: 24h `HH:MM`).
-
-
-* **Force Execution (Forçar Execução):** Manually triggers the dispatch protocol immediately.
-* **Target Manifest (Manifesto de Alvos):** Real-time list of recipients.
-* *Add Target:* Click to recruit a new operative (saves to `targets.json` instantly).
+* **⚙️ Settings (Configurações):**
+* Click the **Gear Icon**.
+* Enter your Gmail/SMTP credentials.
+* *Security Note:* Credentials are automatically **Encrypted** and saved to `config/secrets.json`.
 
 
-* **System Log:** Live telemetry stream. Logs are saved to `logs/mission_log.log` and persist across reboots.
+* **📄 Protocol (Protocolo):**
+* Click the **Document Icon**.
+* Set the **Subject** (Assunto) and **Body** (Mensagem) for the dispatch.
+* HTML formatting is applied automatically to bypass spam filters.
+
+
+* **Next Execution (Próxima Execução):**
+* Click "Editar Horário" to change the H-Hour (Format: 24h `HH:MM`).
+
+
+* **Target Manifest:**
+* Manage your list of operatives. Changes save instantly to `config/targets.json`.
+
+
 
 ---
 
-## 🛠️ Configuration
+## 🔐 Security Protocols
+
+This system uses **Fernet Symmetric Encryption** to protect your credentials.
+
+1. **Encryption:** When you save passwords in the UI, the system generates a `config/master.key` and encrypts `secrets.json`.
+2. **The Key:** The `master.key` is the only way to decrypt your data. **If you lose this file, you lose your saved passwords.**
+3. **Git Safety:** The `.gitignore` is configured to block `secrets.json` and `master.key` to prevent accidental leaks.
+
+---
+
+## 🛠️ Configuration Files
 
 ### `targets.json`
 
-Located in `config/targets.json`. Can be edited via the Dashboard or manually.
+Stores the mission parameters. Can be edited via the Dashboard.
 
 ```json
 {
     "mission_config": {
         "trigger_time": "20:30",
-        "timezone_offset": -3
+        "subject": "Lembrete Operacional",
+        "body": "Favor fechar as planilhas."
     },
     "operatives": [
-        {
-            "name": "Agent Miguel",
-            "email": "miguel@alchemax.com"
-        }
+        { "name": "Miguel", "email": "miguel@2099.com" }
     ]
 }
 
 ```
 
-### Persistence
-
-The `scripts/run.sh` script mounts the host's `logs/` and `config/` directories into the container.
-
-* **Logs:** If you delete the container, your logs remain safe in the `logs/` folder.
-* **Config:** Changes made in the dashboard are written to `config/targets.json` on your host disk.
-
 ---
 
-## 🔧 Development
-
-**Requirements:**
-
-* Python 3.10+
-* Docker
-
-**Manual Start (Dev Mode):**
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python src/teamsintegration/server.py
-
-```
-
----
-
-> *"With great power comes great responsibility... and automated logging."*
+> *"The future isn't written. It's dispatched."*
