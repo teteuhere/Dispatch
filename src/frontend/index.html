@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONTROLE DE DISPARO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bg-main': '#0a0a0a', 'bg-panel': '#111111', 'border-dim': '#333333',
+                        'text-main': '#e5e5e5', 'text-dim': '#888888', 'success': '#2da44e', 'danger': '#cf222e'
+                    },
+                    fontFamily: { mono: ['JetBrains Mono', 'monospace'], sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0a0a0a; color: #e5e5e5; font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333333; }
+        tr:hover td { background-color: #1a1a1a; color: #ffffff; }
+        .modal { transition: opacity 0.2s ease-in-out; }
+        .modal.hidden { opacity: 0; pointer-events: none; }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden text-sm bg-bg-main">
+
+    <header class="h-14 border-b border-border-dim flex items-center justify-between px-6 bg-bg-main shrink-0">
+        <div class="flex items-center space-x-2 text-text-dim font-mono text-xs uppercase tracking-wider">
+            <span>Sistema</span><span class="text-border-dim">/</span><span>Operações</span><span class="text-border-dim">/</span><span class="text-white">Despacho</span>
+        </div>
+        <div class="flex items-center space-x-2"><div class="h-2 w-2 rounded-full bg-success animate-pulse"></div><span class="font-mono text-xs text-success tracking-widest">STATUS: EM EXECUÇÃO</span></div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <aside class="w-16 bg-bg-main border-r border-border-dim flex flex-col items-center py-6 gap-6 z-20 shrink-0">
+            <div class="p-2 text-white border-l-2 border-white"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg></div>
+        </aside>
+
+        <div class="flex-1 flex flex-col min-w-0">
+
+            <div class="flex-1 flex flex-col p-6 space-y-6 overflow-hidden">
+
+                <div class="grid grid-cols-2 gap-6 shrink-0 h-32">
+                    <div class="border border-border-dim bg-bg-panel p-6 flex flex-col justify-between relative group">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-border-dim group-hover:bg-white transition-all"></div>
+                        <label class="font-mono text-xs text-text-dim uppercase tracking-widest">Próxima Execução</label>
+                        <div class="flex items-baseline justify-between">
+                            <span id="display-time" class="font-mono text-4xl text-white font-light">--:-- <span class="text-lg text-text-dim">UTC-3</span></span>
+                            <button onclick="toggleTimeModal(true)" class="text-xs text-text-dim hover:text-white underline font-mono uppercase">Editar Horário</button>
+                        </div>
+                    </div>
+                    <div class="border border-border-dim bg-bg-panel p-0 flex items-center justify-center">
+                        <button id="force-btn" class="w-full h-full text-text-dim hover:text-white hover:bg-white/5 transition-all font-mono uppercase tracking-[0.2em] border border-transparent hover:border-text-dim flex items-center justify-center gap-4">
+                            <span>Executar agora</span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="border border-border-dim bg-bg-panel flex flex-col flex-1 overflow-hidden">
+                    <div class="px-6 py-3 border-b border-border-dim flex justify-between items-center bg-bg-main shrink-0">
+                        <h2 class="font-mono text-xs text-text-dim uppercase tracking-widest">Manifesto de endereços</h2>
+                        <button onclick="toggleModal(true)" class="flex items-center gap-2 px-3 py-1 text-xs font-mono uppercase bg-bg-panel border border-border-dim hover:bg-white hover:text-black transition-colors">
+                            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg> Adicionar Endereço
+                        </button>
+                    </div>
+                    <div class="overflow-auto flex-1">
+                        <table class="w-full font-mono text-xs text-left">
+                            <thead class="text-text-dim border-b border-border-dim sticky top-0 bg-bg-panel">
+                                <tr>
+                                    <th class="px-6 py-4 uppercase tracking-wider font-normal w-24">Status</th>
+                                    <th class="px-6 py-4 uppercase tracking-wider font-normal">Nome do Agente</th>
+                                    <th class="px-6 py-4 uppercase tracking-wider font-normal">Email</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border-dim text-text-dim" id="target-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="h-1/3 bg-black border-t border-border-dim flex flex-col font-mono text-xs shrink-0">
+                <div class="px-4 py-2 border-b border-border-dim text-text-dim text-[10px] uppercase tracking-wider bg-bg-panel">Log do Sistema / Telemetria</div>
+                <div id="log-panel" class="flex-1 overflow-y-auto p-4 space-y-1 font-mono w-full"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="recruit-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] hidden modal opacity-0">
+        <div class="bg-bg-panel border border-border-dim w-[400px] p-6 shadow-2xl">
+            <h3 class="font-mono text-white text-sm uppercase tracking-widest mb-6">Recrutar Novo Agente</h3>
+            <div class="space-y-4">
+                <input type="text" id="input-name" class="w-full bg-bg-main border border-border-dim p-2 text-white text-xs font-mono focus:border-white focus:outline-none" placeholder="Nome">
+                <input type="email" id="input-email" class="w-full bg-bg-main border border-border-dim p-2 text-white text-xs font-mono focus:border-white focus:outline-none" placeholder="Email">
+                <div class="flex gap-4 pt-4">
+                    <button onclick="submitTarget()" class="flex-1 bg-white text-black py-2 text-xs font-mono uppercase font-bold hover:bg-gray-200">Confirmar</button>
+                    <button onclick="toggleModal(false)" class="flex-1 border border-border-dim text-text-dim py-2 text-xs font-mono uppercase hover:text-white">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="time-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] hidden modal opacity-0">
+        <div class="bg-bg-panel border border-border-dim w-[300px] p-6 shadow-2xl text-center">
+            <h3 class="font-mono text-white text-sm uppercase tracking-widest mb-6">Definir Hora-H (24h)</h3>
+            <div class="space-y-4">
+                <input type="text"
+                       id="input-time"
+                       maxlength="5"
+                       placeholder="20:30"
+                       class="w-full bg-bg-main border border-border-dim p-4 text-white text-xl font-mono text-center focus:border-white focus:outline-none placeholder-text-dim/30"
+                       oninput="formatTimeInput(this)">
+
+                <div class="flex gap-4 pt-4">
+                    <button onclick="submitTime()" class="flex-1 bg-white text-black py-2 text-xs font-mono uppercase font-bold hover:bg-gray-200">Definir</button>
+                    <button onclick="toggleTimeModal(false)" class="flex-1 border border-border-dim text-text-dim py-2 text-xs font-mono uppercase hover:text-white">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const btn = document.getElementById('force-btn');
+        const logPanel = document.getElementById('log-panel');
+        const tableBody = document.getElementById('target-table-body');
+        const displayTime = document.getElementById('display-time');
+
+        function appendLog(msg, type="INFO") {
+            const line = document.createElement('div');
+            const time = new Date().toLocaleTimeString('pt-BR'); // Formato PT-BR
+            let color = "text-text-dim";
+            if(type === "ERROR") color = "text-danger";
+            if(type === "SUCCESS") color = "text-success";
+            line.className = `${color} break-words`;
+            line.innerHTML = `<span class="text-border-dim">${time}</span> - [${type}] - ${msg}`;
+            logPanel.appendChild(line);
+            logPanel.scrollTop = logPanel.scrollHeight;
+        }
+
+        // --- LÓGICA DE TEMPO (Militar Estrito) ---
+        function formatTimeInput(input) {
+            // Remove tudo que não for número
+            let v = input.value.replace(/[^0-9]/g, '');
+
+            // Insere os dois pontos automaticamente
+            if (v.length > 2) {
+                v = v.substring(0, 2) + ':' + v.substring(2, 4);
+            }
+            input.value = v;
+        }
+
+        function toggleTimeModal(show) {
+            const m = document.getElementById('time-modal');
+            const input = document.getElementById('input-time');
+
+            if(show) {
+                // Preenche com o horário atual exibido
+                const currentDisplay = document.getElementById('display-time').innerText.split(' ')[0];
+                if(currentDisplay.includes(':')) input.value = currentDisplay;
+
+                m.classList.remove('hidden');
+                setTimeout(() => m.classList.remove('opacity-0'), 10);
+                input.focus();
+            }
+            else {
+                m.classList.add('opacity-0');
+                setTimeout(() => m.classList.add('hidden'), 200);
+            }
+        }
+
+        async function submitTime() {
+            const t = document.getElementById('input-time').value;
+
+            // Regex para validar formato 24h (00:00 a 23:59)
+            const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+            if(!timeRegex.test(t)) {
+                alert("Formato Inválido. Use HH:MM (00:00 a 23:59)");
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/config', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ trigger_time: t })
+                });
+                if(res.ok) {
+                    toggleTimeModal(false);
+                    fetchConfig();
+                    appendLog(`Hora-H reagendada para ${t}`, "SUCCESS");
+                } else alert("O Servidor rejeitou o horário.");
+            } catch(e) { console.error(e); }
+        }
+
+        async function fetchConfig() {
+            try {
+                const res = await fetch('/api/config');
+                const data = await res.json();
+                if(data.trigger_time) {
+                    displayTime.innerHTML = `${data.trigger_time} <span class="text-lg text-text-dim">UTC-3</span>`;
+                }
+            } catch(e) {}
+        }
+
+        // --- LÓGICA DE ALVOS ---
+        function toggleModal(show) {
+            const m = document.getElementById('recruit-modal');
+            if(show) { m.classList.remove('hidden'); setTimeout(() => m.classList.remove('opacity-0'), 10); }
+            else { m.classList.add('opacity-0'); setTimeout(() => m.classList.add('hidden'), 200); }
+        }
+
+        async function submitTarget() {
+            const name = document.getElementById('input-name').value;
+            const email = document.getElementById('input-email').value;
+            if(!name || !email) return;
+            try {
+                const res = await fetch('/api/targets', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name, email })
+                });
+                if(res.ok) { toggleModal(false); fetchTargets(); appendLog(`Recruta Adicionado: ${name}`, "SUCCESS"); }
+            } catch(e) {}
+        }
+
+        async function fetchTargets() {
+            try {
+                const res = await fetch('/api/targets');
+                const data = await res.json();
+                tableBody.innerHTML = "";
+                data.operatives.forEach(op => {
+                    tableBody.innerHTML += `<tr><td class="px-6 py-4"><div class="h-2 w-2 rounded-full bg-success"></div></td><td class="px-6 py-4 text-white">${op.name}</td><td class="px-6 py-4 text-text-dim">${op.email}</td></tr>`;
+                });
+            } catch(e) {}
+        }
+
+        // --- POLLING DE LOGS ---
+        async function fetchLogs() {
+            try {
+                const response = await fetch('/api/logs');
+                const data = await response.json();
+                if(data.logs) {
+                    logPanel.innerHTML = "";
+                    data.logs.forEach(line => {
+                         let type = "INFO";
+                         if(line.includes("ERROR")) type = "ERROR";
+                         if(line.includes("DISPARO") || line.includes("ADDED") || line.includes("UPDATED")) type = "SUCCESS";
+                         appendLog(line.replace(/\n/g, ''), type);
+                    });
+                }
+            } catch(e) {}
+        }
+
+        if(btn) {
+            btn.addEventListener('click', async () => {
+                const original = btn.innerHTML;
+                btn.innerHTML = `<span class="animate-pulse text-danger">EXECUTANDO...</span>`;
+                btn.classList.add('border-danger');
+
+                try { await fetch('/api/trigger', { method: 'POST' }); }
+                catch(e) { appendLog("Falha de Comunicação", "ERROR"); }
+
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('border-danger');
+                }, 2000);
+            });
+        }
+
+        // Inicialização
+        fetchConfig();
+        fetchTargets();
+        setInterval(fetchLogs, 2000);
+    </script>
+</body>
+</html>

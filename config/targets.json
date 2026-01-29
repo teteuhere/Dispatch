@@ -1,0 +1,20 @@
+{
+    "mission_config": {
+        "trigger_time": "20:45",
+        "timezone_offset": -3
+    },
+    "operatives": [
+        {
+            "name": "Miguel O'Hara",
+            "email": "matheuss.cirq@gmail.com"
+        },
+        {
+            "name": "Peter B. Parker",
+            "email": "matheuss.cirq@outlook.com"
+        },
+        {
+            "name": "Proton",
+            "email": "matheuss.cirq@pm.me"
+        }
+    ]
+}

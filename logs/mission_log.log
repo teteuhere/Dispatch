@@ -1,0 +1,15 @@
+2026-01-28 22:05:31,959 - [INFO] - TIMER ARMED. Target Time: 20:45
+2026-01-28 22:08:17,608 - [INFO] - MANUAL/AUTO OVERRIDE INITIATED. Executing Protocol...
+2026-01-28 22:08:17,609 - [INFO] - INICIANDO CONEXÃO SMTP (Munição Real)...
+2026-01-28 22:08:20,380 - [INFO] - CONEXÃO SMTP ESTABELECIDA. Pronto para disparo.
+2026-01-28 22:08:20,380 - [INFO] - TARGET ACQUIRED: matheuss.cirq@gmail.com
+2026-01-28 22:08:24,306 - [INFO] - DISPARO CONFIRMADO: E-mail enviado para matheuss.cirq@gmail.com
+2026-01-28 22:08:24,307 - [INFO] - [SIMULAÇÃO] Enviando mensagem Teams para matheuss.cirq@gmail.com (API Indisponível).
+2026-01-28 22:08:24,307 - [INFO] - TARGET ACQUIRED: matheuss.cirq@outlook.com
+2026-01-28 22:08:28,152 - [INFO] - DISPARO CONFIRMADO: E-mail enviado para matheuss.cirq@outlook.com
+2026-01-28 22:08:28,152 - [INFO] - [SIMULAÇÃO] Enviando mensagem Teams para matheuss.cirq@outlook.com (API Indisponível).
+2026-01-28 22:08:28,152 - [INFO] - TARGET ACQUIRED: matheuss.cirq@pm.me
+2026-01-28 22:08:32,080 - [INFO] - DISPARO CONFIRMADO: E-mail enviado para matheuss.cirq@pm.me
+2026-01-28 22:08:32,080 - [INFO] - [SIMULAÇÃO] Enviando mensagem Teams para matheuss.cirq@pm.me (API Indisponível).
+2026-01-28 22:08:32,080 - [INFO] - PROTOCOL EXECUTED SUCCESSFULLY.
+2026-01-28 22:08:55,748 - [INFO] - TIMER ARMED. Target Time: 20:45
