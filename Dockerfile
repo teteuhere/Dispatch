@@ -24,4 +24,4 @@ COPY . .
 # Expose Port
 EXPOSE 8000
 
-CMD ["python", "src/dispatch/server.py"]
+CMD ["python", "src/server.py"]

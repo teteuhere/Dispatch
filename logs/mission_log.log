@@ -107,3 +107,13 @@
 2026-01-28 23:35:13,090 - [INFO] - PAYLOAD DELIVERED: isac.raulino@hotmail.com
 2026-01-28 23:35:13,090 - [INFO] - [TEAMS SIM] To: isac.raulino@hotmail.com | Msg: Isac, você precisa a...
 2026-01-28 23:35:13,090 - [INFO] - PROTOCOL EXECUTED SUCCESSFULLY.
+2026-02-03 03:53:23,550 - [WARNING] - INTEL MISSING: config/targets.csv não encontrado. Criando arquivo vazio.
+2026-02-03 03:53:37,887 - [INFO] - TESTANDO CANAIS DE COMUNICAÇÃO...
+2026-02-03 03:53:37,887 - [INFO] - RADIO CHECK: Connecting to SMTP...
+2026-02-03 03:53:37,887 - [ERROR] - RADIO SILENCE: No credentials found.
+2026-02-03 04:09:27,846 - [WARNING] - Config: Failed to read secrets.json. Relying on environment variables.
+2026-02-03 04:09:59,122 - [INFO] - RADIO CHECK: Connecting to SMTP...
+2026-02-03 04:10:02,033 - [INFO] - LINK ESTABLISHED: Channel Open.
+2026-02-03 04:10:17,281 - [INFO] - PAYLOAD DELIVERED: matheuss.cirq@gmail.com
+2026-02-03 04:10:21,826 - [INFO] - PAYLOAD DELIVERED: matheuss.cirq@outlook.com
+2026-02-03 04:10:26,415 - [INFO] - PAYLOAD DELIVERED: matheuss.cirq@pm.me

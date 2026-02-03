@@ -1,153 +1,141 @@
-# DISPATCH // CENTRAL COMMAND
+# DISPATCH // TACTICAL CLI
 
-![Status](https://img.shields.io/badge/STATUS-OPERATIONAL-success?style=for-the-badge)
-![Security](https://img.shields.io/badge/SECURITY-ENCRYPTED-blue?style=for-the-badge)
-![Platform](https://img.shields.io/badge/PLATFORM-NATIVE_DESKTOP-orange?style=for-the-badge)
+**Dispatch Protocol** is a lightweight, headless Command Line Interface (CLI) designed for automated communication operations. It executes mass notifications via **SMTP (Email)** and **Microsoft Graph (Teams DMs)** using a secure, encrypted credential vault.
 
-**Dispatch** is a tactical automated communication system designed to execute scheduled protocols (Email/Teams) from a secure, native desktop interface. It features a stealth "Dark Mode" dashboard, Fernet-grade encryption for credentials, and automated H-Hour scheduling.
-
-> **System Update:** This unit has been upgraded from a containerized web service to a standalone Desktop Application (GTK/WebView). Docker is no longer required for operation.
+Designed to be compiled into a `.exe` and triggered by **Windows Task Scheduler** for "set and forget" reliability.
 
 ---
 
 ## 📂 Operational Structure
 
+The system logic has been stripped down for efficiency. No web servers. No HTML. Just pure logic.
+
 ```text
-Dispatch/
-├── config/             # Mission Data (Auto-Generated)
-│   ├── targets.json    # Operatives, Schedule, & Message Content
-│   ├── secrets.json    # ENCRYPTED Credentials (AES/Fernet)
-│   └── master.key      # Encryption Key (DO NOT DELETE)
-├── logs/               # Persistent Telemetry
-├── scripts/            # Factory Scripts
-│   ├── build_linux.sh  # Compiles Binary for Linux
-│   └── build_exe.sh    # Cross-Compiles .exe for Windows (via Docker)
-├── src/
-│   ├── frontend/       # HTML/JS Dashboard (PT-BR Localized)
-│   └── dispatch/       # Core Logic
-│       ├── api/        # SMTP & Connectors
-│       ├── utils/      # Security & Logging
-│       └── server.py   # Main Engine (FastAPI + PyWebView)
-└── requirements.txt    # Python Dependencies
+DispatchProtocol/
+├── DispatchProtocol.exe   # Compiled Binary (The Trigger)
+└── config/                # Intel & Logistics
+    ├── header.csv         # Target List (Name, Email)
+    ├── body.json          # Mission Payload (Subject, Body)
+    ├── secrets.enc        # ENCRYPTED Credentials (AES-128)
+    └── master.key         # Decryption Key (REQUIRED)
 
 ```
+
+> **⚠️ CRITICAL:** The `.exe` must always be in the same folder as the `config/` directory.
 
 ---
 
-## 🚀 Deployment Protocols
+## 🔐 Security Protocol (The Vault)
 
-### Option A: Linux (Native Binary)
+We no longer use plain text `.env` files. We use a **Fernet Symmetric Key** vault.
 
-*Recommended for your local kernel (`theo@kernel`).*
+### 1. Setup Credentials
 
-1. **Compile the Asset:**
+Before compiling, you must run the setup script to lock your credentials.
+
 ```bash
-chmod +x scripts/build_linux.sh
-./scripts/build_linux.sh
+python setup_vault.py
 
 ```
 
+You will be prompted to enter:
 
-2. **Execute:**
-Run the binary directly. It will launch a secure window.
-```bash
-./dist/dispatch
+* **SMTP:** Gmail/Outlook User & App Password.
+* **Azure:** Tenant ID, Client ID, Secret (For Teams DMs).
 
-```
-
-
-
-### Option B: Windows Executable (.exe)
-
-*Recommended for field agents on Windows.*
-
-1. **Build the Artifact:**
-We use a Dockerized PyInstaller to cross-compile from Linux to Windows.
-```bash
-chmod +x scripts/build_exe.sh
-./scripts/build_exe.sh
-
-```
-
-
-2. **Deploy:**
-* Take `dist/dispatch.exe`.
-* Run it anywhere. No installation required.
-
-
-
-### Option C: Developer Mode (Source)
-
-*For making modifications to the mainframe.*
-
-```bash
-# Activate Environment
-source .venv/bin/activate
-
-# Launch directly
-python src/dispatch/server.py
-
-```
+*This generates `config/master.key` and `config/secrets.enc`.*
 
 ---
 
-## 🕹️ Dashboard Controls
+## 🚀 Deployment Instructions
 
-The interface is fully localized in **Portuguese (PT-BR)** and runs in a dedicated window (no browser required).
+### Phase 1: Configuration (Intel)
 
-* **⚙️ Settings (Configurações):**
-* Click the **Gear Icon**.
-* Enter your Gmail/SMTP credentials.
-* *Security Note:* Credentials are automatically **Encrypted** and saved to `config/secrets.json`.
+1. **Targets (`config/header.csv`):**
+Edit this file with Excel or Notepad. Format:
+```csv
+Name,Email
+Miguel O'Hara,miguel@lyla.ai
+Peter Parker,peter@dailybugle.com
 
-
-* **📄 Protocol (Protocolo):**
-* Click the **Document Icon**.
-* Set the **Subject** (Assunto) and **Body** (Mensagem) for the dispatch.
-* HTML formatting is applied automatically to bypass spam filters.
+```
 
 
-* **Next Execution (Próxima Execução):**
-* Click "Editar Horário" to change the H-Hour (Format: 24h `HH:MM`).
-
-
-* **Target Manifest:**
-* Manage your list of operatives. Changes save instantly to `config/targets.json`.
-
-
-
----
-
-## 🔐 Security Protocols
-
-This system uses **Fernet Symmetric Encryption** to protect your credentials.
-
-1. **Encryption:** When you save passwords in the UI, the system generates a `config/master.key` and encrypts `secrets.json`.
-2. **The Key:** The `master.key` is the only way to decrypt your data. **If you lose this file, you lose your saved passwords.**
-3. **Git Safety:** The `.gitignore` is configured to block `secrets.json` and `master.key` to prevent accidental leaks.
-
----
-
-## 🛠️ Configuration Files
-
-### `targets.json`
-
-Stores the mission parameters. Can be edited via the Dashboard.
-
+2. **Message (`config/body.json`):**
+Set the broadcast content.
 ```json
 {
-    "mission_config": {
-        "trigger_time": "20:30",
-        "subject": "Lembrete Operacional",
-        "body": "Favor fechar as planilhas."
-    },
-    "operatives": [
-        { "name": "Miguel", "email": "miguel@2099.com" }
-    ]
+    "subject": "System Update",
+    "body": "Daily report is mandatory. Do not be late."
 }
 
 ```
 
+
+
+### Phase 2: Compilation (Armory)
+
+Run this command on a **Windows** machine to generate the standalone executable.
+
+```bash
+pip install -r requirements.txt
+pyinstaller --noconfirm --onefile --console --name "DispatchProtocol" --clean src/dispatch/main.py
+
+```
+
+*Artifact located at: `dist/DispatchProtocol.exe*`
+
+### Phase 3: Automation (Field Ops)
+
+To run this automatically every day (e.g., at 20:45):
+
+1. Open **Windows Task Scheduler**.
+2. **Create Basic Task** -> Name: "Dispatch Protocol".
+3. **Trigger**: Daily @ 20:45.
+4. **Action**: Start a Program.
+* **Program**: Browse to `DispatchProtocol.exe`.
+* **Start in (IMPORTANT):** Paste the full path to the folder containing the exe (e.g., `C:\Ops\Dispatch\`). *If you skip this, it won't find the config files.*
+
+
+
 ---
 
-> *"The future isn't written. It's dispatched."*
+## 📡 Capabilities
+
+### 📧 SMTP (Email)
+
+* Standard TLS encryption (Port 587).
+* Sends automatically to every email in the CSV.
+
+### 💬 Microsoft Teams (Graph API)
+
+* **Direct Messages:** Uses Azure App Registration to look up the user's Profile ID via their email and sends a private DM.
+* **Fallback:** If Azure keys are missing, it logs the attempt internally without crashing.
+* **Requirements:**
+* Permission: `User.Read.All` (To find the ID).
+* Permission: `Chat.Create` & `Chat.ReadWrite` (To send the message).
+
+
+
+---
+
+## 🛠️ Developer Mode
+
+To run manually without compiling:
+
+```bash
+# 1. Install Dependencies
+pip install -r requirements.txt
+
+# 2. Run CLI
+python src/dispatch/main.py
+
+```
+
+* **[1] Start Dispatch:** Fires the email/teams loop immediately.
+* **[2] Manage Contacts:** Add/Remove people from the CSV via terminal.
+* **[3] Check Connection:** Verifies Vault decryption and SMTP login.
+
+---
+
+> *"Radio check complete. Standing by."*
