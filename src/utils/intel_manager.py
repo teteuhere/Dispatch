@@ -1,7 +1,7 @@
 """
 MISSION SUMMARY:
 Módulo de logística de inteligência. Responsável por ler e manipular
-o arquivo de alvos (CSV) de forma segura.
+o arquivo de colaboradores (CSV) de forma segura.
 """
 import csv
 import os

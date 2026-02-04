@@ -32,7 +32,7 @@ if not os.path.exists(os.path.join(PROJECT_ROOT, "config")):
 CONFIG_PATH = os.path.join(PROJECT_ROOT, "config", "targets.json")
 SECRETS_PATH = os.path.join(PROJECT_ROOT, "config", "secrets.json")
 KEY_PATH = os.path.join(PROJECT_ROOT, "config", "master.key")
-LOG_PATH = os.path.join(PROJECT_ROOT, "logs", "mission_log.log")
+LOG_PATH = os.path.join(PROJECT_ROOT, "logs", "execution_logging.log")
 
 os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
 logger = setup_logger()
