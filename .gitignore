@@ -6,4 +6,8 @@ __pycache__/
 *.pyc
 .pytest_cache/
 config/
+build/
+logs/
+**.spec
+dist/
 
