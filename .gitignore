@@ -9,4 +9,5 @@ config/
 build/
 logs/
 **.spec
+dist/
 
