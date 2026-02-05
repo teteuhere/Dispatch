@@ -1,3 +1,4 @@
+import os
 import time
 import json
 from datetime import datetime
@@ -6,6 +7,8 @@ from api.connector import MicrosoftConnector
 
 # -- PARAMETRIZAÇÃO --
 CONFIG_PATH = "config/targets.json"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONFIG_PATH = os.path.join(BASE_DIR, "config", "targets.json")
 
 def load_intel():
     try:

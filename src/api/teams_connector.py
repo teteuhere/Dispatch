@@ -6,18 +6,17 @@ import logging
 import threading
 import webview
 from datetime import datetime
+from pydantic import BaseModel
+from utils.logger import setup_logger
+from utils.security import IntelSecurity
 from contextlib import asynccontextmanager
-
-from fastapi import FastAPI, Request, BackgroundTasks, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from api.connector import MicrosoftConnector
 from fastapi.templating import Jinja2Templates
 from apscheduler.schedulers.background import BackgroundScheduler
-from pydantic import BaseModel
+from fastapi import FastAPI, Request, BackgroundTasks, HTTPException
 
-from utils.logger import setup_logger
-from utils.security import IntelSecurity  # <--- NEW IMPORT
-from api.connector import MicrosoftConnector
 
 # --- 1. PATH RECALIBRATION ---
 if getattr(sys, 'frozen', False):

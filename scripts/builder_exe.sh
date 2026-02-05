@@ -27,7 +27,7 @@ docker run --rm \
    --hidden-import='dotenv' \
    --hidden-import='webview' \
    --hidden-import='cryptography' \
-   src/dispatch/server.py"  <-- UPDATED PATH
+   src/server.py"  <-- UPDATED PATH
 
 echo "---------------------------------------------------"
 echo "MISSION COMPLETE. Artifact located in 'dist/dispatch.exe'"

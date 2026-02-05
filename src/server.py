@@ -24,7 +24,7 @@ if getattr(sys, 'frozen', False):
     PROJECT_ROOT = os.path.dirname(sys.executable)
 else:
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    PROJECT_ROOT = os.path.abspath(os.path.join(script_dir, "..", ".."))
+    PROJECT_ROOT = os.path.abspath(os.path.join(script_dir, ".."))
 
 if not os.path.exists(os.path.join(PROJECT_ROOT, "config")):
     PROJECT_ROOT = os.getcwd()
