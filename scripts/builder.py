@@ -10,7 +10,7 @@ DIST_DIR = "dist"
 BUILD_DIR = "build"
 
 def clean_artifacts():
-    print(f"[-] Clearing staging area...")
+    print("[-] Clearing staging area...")
     if os.path.exists(DIST_DIR):
         shutil.rmtree(DIST_DIR)
     if os.path.exists(BUILD_DIR):
