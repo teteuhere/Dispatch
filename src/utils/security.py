@@ -31,5 +31,5 @@ class IntelSecurity:
             decrypted_bytes = self.cipher.decrypt(encrypted_token.encode('utf-8'))
             return json.loads(decrypted_bytes.decode('utf-8'))
         except Exception as e:
-            print(f"[SECURITY ALERT] Decryption failed: {e}")
+            print("[SECURITY ALERT] Decryption failed: {e}")
             return {}

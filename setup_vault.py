@@ -12,11 +12,11 @@ def load_key():
         os.makedirs(CONFIG_DIR)
 
     if os.path.exists(KEY_PATH):
-        print(f"[i] Chave mestra encontrada.")
+        print("[i] Chave mestra encontrada.")
         with open(KEY_PATH, "rb") as kf:
             return kf.read()
     else:
-        print(f"[+] Gerando NOVA chave mestra...")
+        print("[+] Gerando NOVA chave mestra...")
         key = Fernet.generate_key()
         with open(KEY_PATH, "wb") as kf:
             kf.write(key)
@@ -82,7 +82,7 @@ def encrypt_data(key):
 
     with open(VAULT_PATH, "wb") as f:
         f.write(encrypted_data)
-    print(f"\n[OK] Cofre atualizado e trancado em: {VAULT_PATH}")
+    print("\n[OK] Cofre atualizado e trancado em: {VAULT_PATH}")
 
 if __name__ == "__main__":
     key = load_key()

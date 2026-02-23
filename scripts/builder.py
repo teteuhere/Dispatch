@@ -1,8 +1,8 @@
 import os
 import sys
 import shutil
-import platform
 import subprocess
+import glob
 
 APP_NAME = "DispatchProtocol"
 ENTRY_POINT = "src/main.py"
@@ -10,79 +10,94 @@ DIST_DIR = "dist"
 BUILD_DIR = "build"
 
 def clean_artifacts():
-    print("[-] Clearing staging area...")
-    if os.path.exists(DIST_DIR):
-        shutil.rmtree(DIST_DIR)
-    if os.path.exists(BUILD_DIR):
-        shutil.rmtree(BUILD_DIR)
-    spec_file = f"{APP_NAME}.spec"
-    if os.path.exists(spec_file):
-        os.remove(spec_file)
+    print("[-] Removendo artefatos antigos...")
+    if os.path.exists(DIST_DIR): shutil.rmtree(DIST_DIR)
+    if os.path.exists(BUILD_DIR): shutil.rmtree(BUILD_DIR)
+    for spec in glob.glob("*.spec"):
+        try:
+            os.remove(spec)
+        except OSError:
+            pass
 
-def build_windows_native():
-    print("[+] WINDOWS perimeter detected. Initiating native compilation...")
-    cmd = [
-        "pyinstaller",
-        "--noconfirm",
-        "--clean",
-        "--onefile",
-        "--console",
-        f"--name={APP_NAME}",
-        "--hidden-import=cryptography",
-        "--paths=src",
-        ENTRY_POINT
-    ]
-    try:
-        subprocess.check_call(cmd)
-        print(f"\n[SUCCESS] Executable secured at: {os.path.join(DIST_DIR, APP_NAME + '.exe')}")
-    except subprocess.CalledProcessError:
-        print("\n[FAILURE] Native compilation compromised.")
-        sys.exit(1)
+def cleanup_specs():
+    """Varre o perímetro atrás de arquivos .spec residuais e os elimina."""
+    print("[-] Varrendo em busca de lixo .spec...")
+    for spec in glob.glob("*.spec"):
+        try:
+            os.remove(spec)
+        except OSError:
+            pass
 
-def build_linux_cross_compile():
-    print("[+] LINUX perimeter detected. Initiating Docker (Cross-Compile) protocol...")
+def fix_permissions(workspace):
+    """Restaura a posse dos arquivos para o usuário hospedeiro, evitando bloqueio por root."""
+    if os.name != 'nt':  # Necessário apenas se o hospedeiro for Linux/Mac
+        uid, gid = os.getuid(), os.getgid()
+        chown_cmd = [
+            "docker", "run", "--rm",
+            "-v", f"{os.getcwd()}:{workspace}:z",
+            "alpine", "sh", "-c",
+            f"chown -R {uid}:{gid} {workspace}/dist {workspace}/build {workspace}/*.spec 2>/dev/null || true"
+        ]
+        subprocess.check_call(chown_cmd)
 
-    if shutil.which("docker") is None:
-        print("[ERROR] Docker daemon not found. Target unreachable.")
-        sys.exit(1)
+def build_windows_target():
+    print("[+] Acionando Docker (Wine) para WINDOWS...")
+    workspace = "/src"
 
-    workspace_mnt = "/src"
-    host_uid = str(os.getuid())
-    host_gid = str(os.getgid())
-
-    internal_cmd = (
-        f"pyinstaller --noconfirm --clean --onefile --console --name={APP_NAME} "
-        f"--hidden-import=cryptography --paths=src {ENTRY_POINT} && "
-        f"chown -R {host_uid}:{host_gid} dist/ build/ {APP_NAME}.spec"
+    # Override Tático: Ignorando o entrypoint defeituoso da imagem com nossa própria cadência.
+    internal_script = (
+        "pip install -r requirements.txt && "
+        f"pyinstaller --noconfirm --clean --onefile --console --name={APP_NAME}_Windows --hidden-import=cryptography --paths=src {ENTRY_POINT}"
     )
 
-    docker_cmd = [
+    cmd = [
         "docker", "run", "--rm",
-        "-v", f"{os.getcwd()}:{workspace_mnt}:z",
-        "--workdir", workspace_mnt,
+        "--entrypoint", "sh",
+        "-v", f"{os.getcwd()}:{workspace}:z",
+        "--workdir", workspace,
         "batonogov/pyinstaller-windows:latest",
-        "sh", "-c", internal_cmd
+        "-c", internal_script
     ]
+    subprocess.check_call(cmd)
+    fix_permissions(workspace)
 
-    try:
-        subprocess.check_call(docker_cmd)
-        print(f"\n[SUCCESS] Windows executable secured at: {os.path.join(DIST_DIR, APP_NAME + '.exe')}")
-    except subprocess.CalledProcessError:
-        print("\n[FAILURE] Docker task force compromised.")
-        sys.exit(1)
+def build_linux_target():
+    print("[+] Acionando Docker (Python Slim) para o LINUX...")
+    workspace = "/src"
+
+    internal_script = (
+        "apt-get update && apt-get install -y binutils && "
+        "pip install pyinstaller cryptography && "
+        f"pyinstaller --noconfirm --clean --onefile --console --name={APP_NAME}_Linux --hidden-import=cryptography --paths=src {ENTRY_POINT}"
+    )
+
+    cmd = [
+        "docker", "run", "--rm",
+        "-v", f"{os.getcwd()}:{workspace}:z",
+        "--workdir", workspace,
+        "python:3.10-slim",
+        "sh", "-c", internal_script
+    ]
+    subprocess.check_call(cmd)
+    fix_permissions(workspace)
 
 def main():
-    print(f"--- DISPATCH BUILDER: {APP_NAME} ---")
+    print("--- BUILDER: APLICAÇÃO DOCKERIZADA ---")
+
+    if shutil.which("docker") is None:
+        print("[!] Daemon do Docker não encontrado.")
+        sys.exit(1)
+
     clean_artifacts()
 
-    system_os = platform.system()
-
-    if system_os == "Windows":
-        build_windows_native()
-    elif system_os == "Linux":
-        build_linux_cross_compile()
-    else:
-        print(f"[ERROR] Unsupported OS perimeter: {system_os}")
+    try:
+        build_linux_target()
+        build_windows_target()
+        cleanup_specs()
+        print(f"\n[SUCESSO] Ambos os binários foram assegurados em '{DIST_DIR}/'.")
+    except subprocess.CalledProcessError:
+        print("\n[FALHA] Compilação comprometida. Verifique os logs do Docker/PyInstaller para identificar a pane.")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
